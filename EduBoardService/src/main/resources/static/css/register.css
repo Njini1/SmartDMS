@@ -1,0 +1,113 @@
+body {
+    /*background: white;*/
+    background-color: #D2E8FE;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Pretendard', sans-serif;
+}
+
+/* 회원가입 박스 */
+.register-card {
+    background-color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    width: 100%;
+    max-width: 520px;
+    padding: 3rem 3.5rem;
+}
+
+/* 로고 부분 */
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.logo-img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.logo-text .right-align {
+    text-align: right;
+}
+
+.register-title {
+    color: #073D76;
+    font-weight: 900;
+    font-size: 3.2rem;
+    letter-spacing: 2px;
+    line-height: 1;
+}
+
+.register-subtitle {
+    color: #0451A0;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+/* 입력 폼 */
+.form-label {
+    color: #073D76;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.form-control {
+    height: 52px;
+    font-size: 1rem;
+    border: 1.5px solid #99CAFF;
+    border-radius: 10px;
+}
+
+.form-control:focus {
+    border-color: #53a6fd;
+    box-shadow: 0 0 0 0.25rem rgba(83,166,253,0.3);
+}
+
+/* 버튼 */
+.btn-register {
+    background-color: #0451A0;
+    border: none;
+    height: 52px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-register:hover {
+    background-color: #073D76;
+}
+
+/* 하단 링크 */
+.text-center a {
+    color: #0451A0;
+    text-decoration: none;
+    margin-left: 6px;
+}
+
+.text-center a:hover {
+    text-decoration: underline;
+}
+
+/* 반응형 */
+@media (max-width: 480px) {
+    .register-card {
+        padding: 2rem;
+    }
+
+    .register-title {
+        font-size: 2.5rem;
+    }
+}

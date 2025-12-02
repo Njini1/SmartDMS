@@ -1,0 +1,83 @@
+/* Pretendard: 부드러운 한글 서체 */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+body {
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+    letter-spacing: -0.2px;
+    color: #333;
+}
+
+/* 브랜드 텍스트 */
+.brand-text {
+    color: #0053b8 !important;
+    font-weight: 800;
+}
+
+/* navbar */
+.navbar {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* 네비게이션 hover */
+.hover-underline {
+    position: relative;
+    transition: color 0.3s;
+}
+
+.hover-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background-color: #0053b8;
+    transition: width 0.3s ease;
+}
+
+.hover-underline:hover {
+    color: #0053b8 !important;
+}
+
+.hover-underline:hover::after {
+    width: 100%;
+}
+
+/* 버튼 */
+.btn-gradient {
+    background: linear-gradient(90deg, #336dcc, #4a90e2);
+    border: none;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.btn-gradient:hover {
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+    transform: translateY(-1px);
+}
+
+/* 로그아웃 버튼 */
+.btn-outline-gradient {
+    border: 2px solid #336dcc;
+    color: #336dcc;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.btn-outline-gradient:hover {
+    background: linear-gradient(90deg, #e8f0ff, #f0f6ff);
+    color: #0053b8;
+    box-shadow: 0 3px 8px rgba(74, 144, 226, 0.25);
+}
+
+/* 로그인한 닉네임 */
+.navbar .text-primary {
+    color: #0053b8 !important;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+}

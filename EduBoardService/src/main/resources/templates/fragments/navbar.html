@@ -1,0 +1,41 @@
+<nav th:fragment="navbar"
+     class="navbar navbar-expand-lg navbar-light shadow-sm py-3 rounded-bottom-4"
+     style="background: linear-gradient(90deg, #e7efff, #f4f8ff); backdrop-filter: blur(10px);">
+    <div class="container">
+        <!-- 로고 -->
+        <a class="navbar-brand d-flex align-items-center fw-bold text-primary" th:href="@{/board/list}">
+            <img th:src="@{/images/logo.png}" alt="SmartDMS 로고" style="height: 40px; margin-right: 10px;">
+            <span class="fs-4 brand-text">SmartDMS</span>
+        </a>
+
+        <!-- 토글 -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- 메뉴 -->
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav ms-auto align-items-center">
+
+                <!-- 로그인한 사용자 닉네임 표시 -->
+                <li class="nav-item mx-2" sec:authorize="isAuthenticated()">
+                    <span class="fw-semibold text-primary" th:text="${#authentication.principal.nickname}"></span>
+                </li>
+
+                <!-- 로그인 / 로그아웃 -->
+                <li class="nav-item ms-3" sec:authorize="!isAuthenticated()">
+                    <a class="btn btn-gradient text-white px-3 py-2 shadow-sm" th:href="@{/users/login}">로그인</a>
+                </li>
+
+                <li class="nav-item ms-3" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/users/logout}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-outline-gradient text-primary px-3 py-2 shadow-sm">
+                            로그아웃
+                        </button>
+                    </form>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
