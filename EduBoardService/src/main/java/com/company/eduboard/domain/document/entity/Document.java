@@ -25,20 +25,25 @@ public class Document extends BaseTimeEntity {
     @Column(nullable = false)
     private DocumentStatus status = DocumentStatus.ACTIVE;
 
-    // 최신 버전 번호 (캐싱용)
-    @Column(nullable = false)
-    private Long latestVersionNumber;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
+    // optimistic locking : 수정될 때마다 자동으로 버전이 증가 -> 동시성 처리
+    @Version
+    private Long lockVersion;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "current_version_id")
+    private DocumentVersion currentVersion;
+
     // 보존 연한 필드 추가 -> 폐기관리용
 
     @Builder
-    public Document(String title, User owner, Long latestVersionNumber) {
+    public Document(String title, DocumentStatus status, User owner, DocumentVersion currentVersion) {
         this.title = title;
+        this.status = status;
         this.owner = owner;
-        this.latestVersionNumber = latestVersionNumber;
+        this.currentVersion = currentVersion;
     }
 }

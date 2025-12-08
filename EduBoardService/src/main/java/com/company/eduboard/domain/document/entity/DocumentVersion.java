@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "document_version")
 public class DocumentVersion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,10 +36,6 @@ public class DocumentVersion {
 
     @Column(length = 50)
     private String changeReason; // 변경 사유
-
-    // optimistic locking : 수정될 때마다 자동으로 버전이 증가 -> 동시성 처리
-    @Version
-    private Long lockVersion;
 
     @Builder
     public DocumentVersion(Document document, Long versionNumber, String content, User updatedBy, String changeReason) {
