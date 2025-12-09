@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -31,7 +31,7 @@ public class DocumentVersion {
     @JoinColumn(name = "updatedBy", nullable = false)
     private User updatedBy;
 
-    @LastModifiedDate
+    @CreatedDate
     private LocalDateTime updatedDate;
 
     @Column(length = 50)
@@ -44,5 +44,15 @@ public class DocumentVersion {
         this.content = content;
         this.updatedBy = updatedBy;
         this.changeReason = changeReason;
+    }
+
+    public static DocumentVersion of(Document document, Long versionNumber, String content, User updatedBy, String changeReason) {
+        return DocumentVersion.builder()
+                .document(document)
+                .versionNumber(versionNumber)
+                .content(content)
+                .updatedBy(updatedBy)
+                .changeReason(changeReason)
+                .build();
     }
 }

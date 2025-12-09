@@ -46,4 +46,17 @@ public class Document extends BaseTimeEntity {
         this.owner = owner;
         this.currentVersion = currentVersion;
     }
+
+    // 현재 버전 업데이트(현재 버전이 없으면 1부터 시작)
+    public Long updateNextVersionNumber() {
+        if (currentVersion == null) {
+            return 1L;
+        }
+        return currentVersion.getVersionNumber() + 1;
+    }
+
+    public void updateCurrentVersionAndTitle(DocumentVersion newVersion, String newTitle) {
+        this.currentVersion = newVersion;
+        this.title = newTitle;
+    }
 }
