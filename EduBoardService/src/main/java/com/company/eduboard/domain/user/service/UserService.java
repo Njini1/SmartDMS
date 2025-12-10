@@ -18,7 +18,7 @@ public class UserService {
     @Transactional
     public User registerUser(UserRequest userRequest) {
         if (userRepository.existsByEmail(userRequest.getEmail())) {
-            throw new DuplicateEmailException("이미 가입된 이메일입니다.");
+            throw new DuplicateEmailException(userRequest.getEmail());
         }
 
         String encodedPassword = passwordEncoder.encode(userRequest.getPassword());

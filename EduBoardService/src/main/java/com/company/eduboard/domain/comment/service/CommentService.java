@@ -9,7 +9,6 @@ import com.company.eduboard.domain.comment.repository.CommentRepository;
 import com.company.eduboard.domain.user.entity.User;
 import com.company.eduboard.domain.user.repository.UserRepository;
 import com.company.eduboard.global.enums.Status;
-import com.company.eduboard.global.error.exception.AccessDeniedException;
 import com.company.eduboard.global.error.exception.BoardNotFoundException;
 import com.company.eduboard.global.error.exception.CommentNotFoundException;
 import com.company.eduboard.global.error.exception.UnauthorizedActionException;
@@ -29,18 +28,16 @@ public class CommentService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void saveComment(Integer boardId, Integer userId, CommentRequest commentRequest) {
-        log.info("댓글 등록 service - boardId: {}, userId: {}", boardId, userId);
+    public void saveComment(Integer boardId, User user, CommentRequest commentRequest) {
+        log.info("댓글 등록 service - boardId: {}, userId: {}", boardId, user);
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new BoardNotFoundException("게시글이 존재하지 않습니다."));
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new AccessDeniedException("사용자가 존재하지 않습니다."));
+                .orElseThrow(BoardNotFoundException::new);
 
         Comment parentComment = null;
         Comment rootComment = null;
         if (commentRequest.getParentCommentId() != null) { // 대댓글인 경우
             parentComment = commentRepository.findById(commentRequest.getParentCommentId())
-                    .orElseThrow(() -> new CommentNotFoundException("부모 댓글이 존재하지 않습니다."));
+                    .orElseThrow(CommentNotFoundException::new);
             if (parentComment.getStatus() == Status.DELETED) {
                 throw new IllegalArgumentException("삭제된 댓글에는 대댓글을 작성할 수 없습니다.");
             }
@@ -60,7 +57,7 @@ public class CommentService {
     public void updateComment(Integer commentId, Integer userId, String newContent) {
         log.info("댓글 수정 service - commentId: {}, userId: {}", commentId, userId);
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new CommentNotFoundException("댓글이 존재하지 않습니다."));
+                .orElseThrow(CommentNotFoundException::new);
 
         if (!comment.getUser().getUserId().equals(userId)) {
             throw new UnauthorizedActionException("댓글 작성자만 수정할 수 있습니다.");
@@ -73,7 +70,7 @@ public class CommentService {
     public void deleteComment(Integer commentId, Integer userId){
         log.info("댓글 삭제 service - commentId: {}, userId: {}", commentId, userId);
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new CommentNotFoundException("댓글이 존재하지 않습니다."));
+                .orElseThrow(CommentNotFoundException::new);
 
         if (!comment.getUser().getUserId().equals(userId)) {
             throw new UnauthorizedActionException("본인 댓글만 삭제할 수 있습니다.");
@@ -86,7 +83,7 @@ public class CommentService {
     public List<CommentResponse> findCommentsByBoardId(Integer boardId) {
         log.info("댓글 목록 조회 service - boardId: {}", boardId);
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new BoardNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(BoardNotFoundException::new);
         return commentRepository.findFlatByBoardOrderByRootThenCreated(board)
                 .stream()
                 .map(CommentResponse::from)

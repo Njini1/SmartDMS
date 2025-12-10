@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>에러가 발생했습니다</title>
+</head>
+<body>
+<h1>문제가 발생했습니다.</h1>
+
+<p th:text="'에러 코드: ' + ${errorCode}"></p>
+<p th:text="'HTTP 상태 코드: ' + ${status}"></p>
+<p th:text="${message}"></p>
+
+<hr/>
+
+<a th:href="@{/}">메인으로 돌아가기</a>
+</body>
+</html>

@@ -22,7 +22,7 @@ public class CommentController {
                              @ModelAttribute CommentRequest commentRequest,
                              @AuthenticationPrincipal CustomUserDetails userDetails) {
         log.info("댓글 작성 요청 - boardId: {}, userId: {}", boardId, userDetails.getUser().getUserId());
-        commentService.saveComment(boardId, userDetails.getUser().getUserId(), commentRequest);
+        commentService.saveComment(boardId, userDetails.getUser(), commentRequest);
         return "redirect:/board/" + boardId + "#comments";
     }
 

@@ -23,7 +23,7 @@ public class LikeBoardService {
     public boolean toggleLike(Integer boardId, User user) {
         log.info("좋아요 요청 - boardId: {}, userId: {}", boardId, user.getUserId());
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new BoardNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BoardNotFoundException(boardId));
 
         // 좋아요 상태 확인
 //        LikeBoard existingLike = likeBoardRepository.findByBoard_BoardIdAndUser_UserId(boardId, userId);
@@ -44,7 +44,7 @@ public class LikeBoardService {
     public long countLikes(Integer boardId) {
         log.info("게시글 좋아요 개수 조회 - boardId: {}", boardId);
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new BoardNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BoardNotFoundException(boardId));
         return likeBoardRepository.countByBoardAndLikedIsTrue(board);
     }
 
@@ -52,7 +52,7 @@ public class LikeBoardService {
     public boolean isLikedByUser(Integer boardId, Integer loginUserId) {
         log.info("사용자 좋아요 여부 조회 - boardId: {}, userId: {}", boardId, loginUserId);
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new BoardNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BoardNotFoundException(boardId));
 
         return likeBoardRepository.existsByBoardAndUser_UserIdAndLikedIsTrue(board, loginUserId);
     }

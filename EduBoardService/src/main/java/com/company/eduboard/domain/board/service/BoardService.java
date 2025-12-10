@@ -39,7 +39,7 @@ public class BoardService {
     public BoardResponse findBoardDetailById(Integer boardId, Integer loginUserId) {
         log.info("게시글 상세 조회 요청 - boardId: {}", boardId);
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new BoardNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BoardNotFoundException(boardId));
 
         long likeCount = likeService.countLikes(boardId);
         boolean isLiked = loginUserId != null && likeService.isLikedByUser(boardId, loginUserId);
@@ -51,7 +51,7 @@ public class BoardService {
     public BoardResponse findBoardForEdit(Integer boardId) {
         log.info("게시글 수정용 조회 - boardId: {}", boardId);
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new BoardNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BoardNotFoundException(boardId));
         return BoardResponse.from(board);
     }
 
@@ -68,7 +68,7 @@ public class BoardService {
     public void updateBoard(Integer boardId, BoardRequest boardRequest, Integer userId) {
         log.info("게시글 수정 시도 - boardId: {}, 요청자 userId: {}", boardId, userId);
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new BoardNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BoardNotFoundException(boardId));
 
         if (!board.getUser().getUserId().equals(userId)) {
             log.warn("권한 없음 - 작성자 ID: {}, 요청자 ID: {}", board.getUser().getUserId(), userId);
@@ -82,7 +82,7 @@ public class BoardService {
     public void deleteBoard(Integer boardId, Integer userId) {
         log.info("게시글 삭제 시도 - boardId: {}, 요청자 userId: {}", boardId, userId);
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new BoardNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new BoardNotFoundException(boardId));
 
         if (!board.getUser().getUserId().equals(userId)) {
             log.warn("권한 없음 - 작성자 ID: {}, 요청자 ID: {}", board.getUser().getUserId(), userId);

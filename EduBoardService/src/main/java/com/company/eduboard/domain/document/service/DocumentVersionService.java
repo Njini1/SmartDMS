@@ -22,12 +22,15 @@ public class DocumentVersionService {
     @Transactional
     public Long createNewVersion(DocumentUpdateRequest documentUpdateRequest, User editor) {
         Document document = documentRepository.findById(documentUpdateRequest.getDocumentId())
-                .orElseThrow(() -> new DocumentNotFoundException("문서가 존재하지 않습니다."));
+                .orElseThrow(() -> new DocumentNotFoundException(documentUpdateRequest.getDocumentId()));
 
         // 동시성 체크 -> 낙관적 락 검사(수동 검증)
         if(!document.getLockVersion().equals(documentUpdateRequest.getLockVersion())) {
-            throw new DocumentVersionConflictException("다른 사용자가 이미 문서를 수정했습니다. 새로고침 후 다시 시도해주세요.");
+            throw new DocumentVersionConflictException(document.getDocumentId());
         }
+
+        // TODO: 문서 내용 변경이 없는 경우 예외 처리할지 여부 검토
+        // TODO: 새 버전 문서 생성 권한 검사 추가 필요
 
         // 다음 버전 번호 생성
         Long nextVersionNumber = document.updateNextVersionNumber();
