@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DocumentUpdateRequest {
+public class DocumentVersionRegisterRequest {
     private Long documentId;
     private Long lockVersion;
     private String newTitle;

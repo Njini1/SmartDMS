@@ -1,6 +1,6 @@
 package com.company.eduboard.domain.document.service;
 
-import com.company.eduboard.domain.document.dto.request.DocumentUpdateRequest;
+import com.company.eduboard.domain.document.dto.request.DocumentVersionRegisterRequest;
 import com.company.eduboard.domain.document.entity.Document;
 import com.company.eduboard.domain.document.entity.DocumentVersion;
 import com.company.eduboard.domain.document.repository.DocumentRepository;
@@ -20,7 +20,7 @@ public class DocumentVersionService {
     private final DocumentVersionRepository documentVersionRepository;
 
     @Transactional
-    public Long createNewVersion(DocumentUpdateRequest documentUpdateRequest, User editor) {
+    public Long createNewVersion(DocumentVersionRegisterRequest documentUpdateRequest, User editor) {
         Document document = documentRepository.findById(documentUpdateRequest.getDocumentId())
                 .orElseThrow(() -> new DocumentNotFoundException(documentUpdateRequest.getDocumentId()));
 

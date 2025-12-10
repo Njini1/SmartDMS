@@ -47,6 +47,13 @@ public class Document extends BaseTimeEntity {
         this.currentVersion = currentVersion;
     }
 
+    public static Document of(String title, User user) {
+        return Document.builder()
+                .title(title)
+                .owner(user)
+                .build();
+    }
+
     // 현재 버전 업데이트(현재 버전이 없으면 1부터 시작)
     public Long updateNextVersionNumber() {
         if (currentVersion == null) {

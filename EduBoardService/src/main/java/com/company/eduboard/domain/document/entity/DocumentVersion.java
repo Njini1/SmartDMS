@@ -52,7 +52,7 @@ public class DocumentVersion {
                 .versionNumber(versionNumber)
                 .content(content)
                 .updatedBy(updatedBy)
-                .changeReason(changeReason)
+                .changeReason(changeReason == null ? "최초 등록" : changeReason)
                 .build();
     }
 }
