@@ -1,0 +1,86 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+html, body {
+    background: white;
+}
+
+/* 폼 전체 박스 */
+.document-form-container {
+    background: #fff;
+    border: 1.5px solid #d0d4dc;
+    padding: 50px 60px;
+    max-width: 850px;
+    margin: 100px auto;
+    border-radius: 0;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+}
+
+/* 제목 */
+.page-title {
+    color: #1b2e59;
+    font-weight: 700;
+    font-size: 1.6rem;
+    border-bottom: 2px solid #b5bcc6;
+    padding-bottom: 0.8rem;
+    margin-bottom: 2rem;
+}
+
+/* 라벨 */
+.form-label {
+    color: #1b2e59;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+/* 입력창 */
+.form-control {
+    border-radius: 4px;
+    border: 1px solid #c9ced8;
+    font-size: 0.95rem;
+    padding: 10px 12px;
+    transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: #1b2e59;
+    box-shadow: 0 0 0 0.2rem rgba(27, 46, 89, 0.15);
+}
+
+.content-box {
+    min-height: 300px;
+    line-height: 1.6;
+}
+
+/* 버튼 */
+.btn-main {
+    background-color: #1b2e59;
+    border: none;
+    color: white;
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+}
+
+.btn-main:hover {
+    background-color: #16274d;
+}
+
+.btn-outline-secondary {
+    color: #1b2e59;
+    border: 1.2px solid #b5bcc6;
+    font-weight: 600;
+    border-radius: 4px;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #f5f7fa;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .document-form-container {
+        padding: 30px 25px;
+    }
+}
