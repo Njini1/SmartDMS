@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<body>
+
+<!-- boards 같은 Page 객체를 page 파라미터로 받는 fragment -->
+<nav th:fragment="boardPagination(page)" th:if="${page.totalPages > 1}" class="mt-4">
+    <ul class="pagination justify-content-center">
+
+        <!-- 이전 페이지 -->
+        <li class="page-item" th:classappend="${page.first} ? 'disabled'">
+            <a class="page-link text-primary fw-bold"
+               th:href="@{/board/list(page=${page.number - 1})}" aria-label="이전">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        <!-- 페이지 번호 -->
+        <li class="page-item"
+            th:each="pageNum : ${#numbers.sequence(0, page.totalPages - 1)}"
+            th:classappend="${pageNum == page.number} ? 'active'">
+            <a class="page-link"
+               th:text="${pageNum + 1}"
+               th:href="@{/board/list(page=${pageNum})}"></a>
+        </li>
+
+        <!-- 다음 페이지 -->
+        <li class="page-item" th:classappend="${page.last} ? 'disabled'">
+            <a class="page-link text-primary fw-bold"
+               th:href="@{/board/list(page=${page.number + 1})}" aria-label="다음">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+</body>
+</html>
