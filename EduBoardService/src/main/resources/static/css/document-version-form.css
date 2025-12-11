@@ -1,0 +1,226 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+html, body {
+    background: white;
+}
+
+/* 전체 컨테이너 */
+.document-version-container {
+    background: #fff;
+    border: 1.5px solid #d0d4dc;
+    border-radius: 0;
+    padding: 40px 60px;
+    margin: 100px auto;
+    max-width: 950px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+}
+
+/* 페이지 상단 제목 */
+.page-header {
+    margin-bottom: 1.5rem;
+}
+
+.page-title {
+    color: #1b2e59;
+    font-weight: 700;
+    font-size: 1.6rem;
+    margin-bottom: 0.4rem;
+}
+
+.page-subtitle {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+/* 에러 메시지 */
+.version-alert {
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Bootstrap alert 스타일이 없을 수도 있으니 기본값 보강 */
+.alert-danger, .alert.alert-danger {
+    background-color: #fce8e8;
+    border: 1px solid #f5b5b5;
+    color: #a32626;
+}
+
+/* 섹션 공통 */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1b2e59;
+}
+
+/* 배지 */
+.badge-version {
+    display: inline-block;
+    font-size: 0.78rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background-color: #e2e7f3;
+    color: #1b2e59;
+    font-weight: 600;
+}
+
+.badge-version.new {
+    background-color: #e0f2ff;
+    color: #0451A0;
+}
+
+/* 현재 문서 정보 */
+.current-document-section {
+    margin-bottom: 2rem;
+}
+
+.meta-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.meta-item {
+    display: flex;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+}
+
+.meta-label {
+    color: #666;
+    font-weight: 600;
+}
+
+.meta-value {
+    color: #333;
+}
+
+.current-title {
+    margin-bottom: 1rem;
+}
+
+.current-title-text {
+    margin: 0.3rem 0 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1b2e59;
+}
+
+/* 현재 내용 박스 */
+.current-content-wrapper {
+    margin-top: 1rem;
+}
+
+.current-content {
+    margin-top: 0.4rem;
+    background-color: #f7f8fb;
+    border: 1px solid #d8dde8;
+    border-radius: 6px;
+    padding: 12px 14px;
+    max-height: 300px;
+    overflow-y: auto;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.current-content pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+}
+
+/* 구분선 */
+.divider {
+    border-top: 2px solid #b5bcc6;
+    margin: 2rem 0;
+}
+
+/* 새 버전 섹션 */
+.new-version-section {
+    margin-top: 1rem;
+}
+
+/* 입력 공통 */
+.form-label {
+    color: #1b2e59;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+}
+
+.form-control {
+    border-radius: 4px;
+    border: 1px solid #c9ced8;
+    font-size: 0.95rem;
+    padding: 10px 12px;
+    transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: #1b2e59;
+    box-shadow: 0 0 0 0.2rem rgba(27, 46, 89, 0.15);
+}
+
+.content-box {
+    min-height: 280px;
+    line-height: 1.6;
+}
+
+/* 텍스트 설명 */
+.form-text {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: 4px;
+}
+
+/* 버튼 */
+.button-group .btn {
+    font-size: 0.95rem;
+    padding: 0.55rem 1.3rem;
+    border-radius: 4px;
+}
+
+.btn-main {
+    background-color: #1b2e59;
+    border: none;
+    color: white;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.btn-main:hover {
+    background-color: #16274d;
+}
+
+.btn-outline-secondary {
+    color: #1b2e59;
+    border: 1.2px solid #b5bcc6;
+    font-weight: 600;
+    border-radius: 4px;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #f5f7fa;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .document-version-container {
+        padding: 28px 20px;
+        margin-top: 70px;
+    }
+
+    .current-content {
+        max-height: 220px;
+    }
+}
