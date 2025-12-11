@@ -40,9 +40,8 @@ public class Document extends BaseTimeEntity {
     // 보존 연한 필드 추가 -> 폐기관리용
 
     @Builder
-    public Document(String title, DocumentStatus status, User owner, DocumentVersion currentVersion) {
+    public Document(String title, User owner, DocumentVersion currentVersion) {
         this.title = title;
-        this.status = status;
         this.owner = owner;
         this.currentVersion = currentVersion;
     }

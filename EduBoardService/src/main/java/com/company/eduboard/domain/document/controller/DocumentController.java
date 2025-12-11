@@ -68,4 +68,13 @@ public class DocumentController {
             return "document/updateForm"; // TODO: 추후 비교 화면으로 변경
         }
     }
+
+    @GetMapping("/{documentId}")
+//    @GetMapping("/{documentId:[0-9]+}")
+    public String getDocumentDetail(@PathVariable Long documentId, Model model) {
+        DocumentResponse document = documentService.findDocumentById(documentId);
+        model.addAttribute("document", document);
+        return "document/detail";
+    }
+
 }
