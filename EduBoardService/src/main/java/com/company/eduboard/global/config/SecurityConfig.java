@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/", "/users/register", "/board/list", "/board/{id:[0-9]+}").permitAll()
-                        .requestMatchers("/board/**", "/like/**", "/comment/**").authenticated()
+                        .requestMatchers("/board/**", "/like/**", "/comment/**", "/document/**").authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/users/login") // 사용자 지정 로그인 페이지
