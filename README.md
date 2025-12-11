@@ -40,18 +40,18 @@ SmartDMS는 회사 내부에서 사용되는 문서를 관리하기 위한 **Spr
 
 ## 🧭 주요 기능(구현 전)
 
-### ✅ 문서 버전 관리 (Document Versioning) -> 구현 진행 중
+### ✅ 문서 버전 관리 (Document Versioning) -> 구현 완료
 문서의 모든 변경 이력을 추적하고 관리하여 이전 상태로 복원
 - 버전 관리: 문서의 메타데이터를 담는 Document와 실제 내용을 담는 DocumentVersion을 1:N 관계로 분리하여 관리
 - 새 버전 생성: 문서 수정 시 기존 버전을 덮어쓰지 않고, 새로운 DocumentVersion 데이터를 생성하고 Document의 현재 버전 포인터를 업데이트
-- 이력 조회: 특정 문서의 전체 버전 이력을 조회하고, 과거 버전의 내용을 열람할 수 있는 기능을 제공(선택 사항)
+- 이력 조회: 특정 문서의 전체 버전 이력을 조회하고, 과거 버전의 내용을 열람할 수 있는 기능을 제공(선택 사항) -> 구현 전
 
-### ✅ 같은 문서를 여러 사람이 수정할 때 동시성 처리 (Optimistic Locking)
+### ✅ 같은 문서를 여러 사람이 수정할 때 동시성 처리 (Optimistic Locking) -> 구현 완료
 동일 문서를 여러 사용자가 동시에 수정할 때 충돌 방지
 - 낙관적 잠금 (Optimistic Locking): Document 엔티티에 @Version 필드를 사용하여 동시성 충돌을 제어
   - 두 사용자가 동시에 문서를 수정하고 저장하려 할 때, 먼저 저장한 사용자의 버전만 반영하고, 이후 저장 시도하는 사용자에게는 **OptimisticLockingFailureException**을 발생시켜 충돌을 알림
 
-### ✅ 버전 비교 (Diff)
+### ✅ 버전 비교 (Diff) -> 구현 진행 중
 문서의 두 버전 간의 변경 내용을 시각적으로 비교하여 표시
 - 텍스트 비교 알고리즘: 두 DocumentVersion의 content 필드를 비교하여 변경된 내용(추가, 삭제, 수정)을 하이라이트하여 표시
 
@@ -98,14 +98,24 @@ SmartDMS는 회사 내부에서 사용되는 문서를 관리하기 위한 **Spr
 
 ## 🖥️ 현재 구현된 화면 구성
 
+#### <로그인/회원가입 및 게시물 목록>                                                                      
 <div align="center">
   <img src="https://github.com/user-attachments/assets/d0b71fc2-65f9-496e-8f3b-e00e7d7cf2ef" width="48%" />
     <img src="https://github.com/user-attachments/assets/0345cb38-608a-43d2-9338-0d5d043bf1df" width="48%" />
 </div>
 <div></div>
+
+#### <게시물 상세 및 댓글>
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/5ca655e9-951e-4281-8e3e-7ad502d7ef37" width="48%" />
+  <img src="https://github.com/user-attachments/assets/93c1d64c-3ad1-4d69-b4a7-0b7f4d2950f2" width="48%" />
   <img src="https://github.com/user-attachments/assets/6bbf9d83-becb-4b93-9a04-45bdf4f32e35" width="48%" />
+</div>
+<div></div>
+
+#### <새 버전 문서 생성>
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/c7b312fb-dab3-4bd1-b5b4-5822eaa2842b" width="48%" />
+  <img src="https://github.com/user-attachments/assets/88d58bd8-c865-4b35-9bc4-5848f54d9f79" width="48%" />
 </div>
 
 ---
