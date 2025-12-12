@@ -81,3 +81,30 @@ body {
     font-size: 1rem;
     letter-spacing: 0.3px;
 }
+
+/* 드롭다운 메뉴 */
+/* 드롭다운 메뉴 스타일 */
+.dropdown-menu {
+    border: none;
+    padding: 0.5rem 0;
+}
+
+.dropdown-item {
+    padding: 0.8rem 1.2rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #eaf1ff;
+    color: #0053b8;
+}
+
+/* 햄버거 아이콘 + outline 버튼 hover */
+.btn-outline-gradient i {
+    transition: transform 0.25s ease;
+}
+
+.btn-outline-gradient:hover i {
+    transform: scale(1.15);
+}
