@@ -1,14 +1,19 @@
 package com.company.eduboard.domain.document.service;
 
 import com.company.eduboard.domain.document.dto.request.DocumentRegisterRequest;
+import com.company.eduboard.domain.document.dto.response.DocumentListItemResponse;
 import com.company.eduboard.domain.document.dto.response.DocumentResponse;
 import com.company.eduboard.domain.document.entity.Document;
+import com.company.eduboard.domain.document.entity.DocumentStatus;
 import com.company.eduboard.domain.document.entity.DocumentVersion;
 import com.company.eduboard.domain.document.repository.DocumentRepository;
 import com.company.eduboard.domain.document.repository.DocumentVersionRepository;
 import com.company.eduboard.domain.user.entity.User;
 import com.company.eduboard.global.error.exception.DocumentNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DocumentService {
     private final DocumentRepository documentRepository;
     private final DocumentVersionRepository documentVersionRepository;
+    private static final int PAGE_SIZE = 10;
 
     // 최초 문서 생성
     @Transactional
@@ -56,5 +62,19 @@ public class DocumentService {
                 document.getTitle(),
                 document.getCurrentVersion().getContent(),
                 document.getLockVersion());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<DocumentListItemResponse> findAllDocuments(int page) {
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        return documentRepository.findAllByStatusOrderByUpdatedDateDesc(DocumentStatus.ACTIVE, pageable)
+                .map(document -> DocumentListItemResponse.from(
+                        document.getDocumentId(),
+                        document.getTitle(),
+                        document.getOwner().getNickname(),
+                        document.getCurrentVersion().getVersionNumber(),
+                        document.getLockVersion(),
+                        document.getUpdatedDate()
+                ));
     }
 }

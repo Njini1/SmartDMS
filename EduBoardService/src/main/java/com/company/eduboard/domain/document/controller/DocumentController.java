@@ -77,4 +77,10 @@ public class DocumentController {
         return "document/detail";
     }
 
+    @GetMapping("/list")
+    public String getDocumentList(@RequestParam(defaultValue = "0") int page,
+                                  Model model) {
+        model.addAttribute("documents", documentService.findAllDocuments(page));
+        return "document/list";
+    }
 }

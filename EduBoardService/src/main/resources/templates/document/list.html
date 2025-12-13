@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>문서 목록</title>
+</head>
+<body>
+<h1>문서 목록</h1>
+
+<div style="margin-bottom: 12px;">
+    <a th:href="@{/document/registerForm}">+ 새 문서 등록</a>
+</div>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%;">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>현재 버전</th>
+        <th>수정일</th>
+        <th>바로가기</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${documents.totalElements == 0}">
+        <td colspan="6" style="text-align:center;">등록된 문서가 없습니다.</td>
+    </tr>
+
+    <tr th:each="doc : ${documents.content}">
+        <td th:text="${doc.documentId}">1</td>
+        <td>
+            <a th:href="@{|/document/${doc.documentId}|}"
+               th:text="${doc.title}">문서 제목</a>
+        </td>
+        <td th:text="${doc.ownerName}">홍길동</td>
+        <td th:text="${doc.currentVersionNumber != null ? doc.currentVersionNumber : '-'}">1</td>
+        <td th:text="${#temporals.format(doc.updatedDate, 'yyyy-MM-dd HH:mm')}">2025-12-12 02:00</td>
+        <td>
+            <a th:href="@{|/document/${doc.documentId}/updateForm|}">수정(새 버전)</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- 페이징 -->
+<div style="margin-top: 16px;">
+    <span th:text="'Page ' + (${documents.number} + 1) + ' / ' + ${documents.totalPages}"></span>
+
+    <div style="margin-top: 8px;">
+        <a th:if="${documents.hasPrevious()}"
+           th:href="@{/document/list(page=${documents.number - 1}, size=${documents.size})}">이전</a>
+
+        <span style="margin: 0 10px;"></span>
+
+        <a th:if="${documents.hasNext()}"
+           th:href="@{/document/list(page=${documents.number + 1}, size=${documents.size})}">다음</a>
+    </div>
+</div>
+
+</body>
+</html>
