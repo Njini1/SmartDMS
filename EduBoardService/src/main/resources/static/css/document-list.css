@@ -1,0 +1,94 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+html, body {
+    height: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: white;
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+    letter-spacing: -0.2px;
+    color: #333;
+}
+
+.page-title {
+    color: #073D76;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+/* 테이블 */
+.table {
+    overflow: hidden;
+    background: #fff;
+}
+
+.table thead {
+    background-color: #073D76;
+    color: white;
+    font-weight: 600;
+}
+
+.table th {
+    background-color: #073D76;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(235, 243, 255, 0.7);
+    transition: background-color 0.25s ease;
+}
+
+/* 제목 링크 */
+a.text-dark {
+    color: #333 !important;
+    transition: color 0.2s ease;
+}
+
+a.text-dark:hover {
+    color: #0053b8 !important;
+}
+
+/* 상단 새 문서 버튼 (board-list와 같은 톤) */
+.btn-primary {
+    background: linear-gradient(90deg, #336dcc, #4a90e2);
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+    transform: translateY(-1px);
+}
+
+/* "수정(새 버전)" 액션 링크 */
+.action-link {
+    color: #0451A0;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.action-link:hover {
+    text-decoration: underline;
+    color: #073D76;
+}
+
+/* 페이지네이션 */
+.pagination .page-link {
+    color: #336dcc;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.pagination .page-item.active .page-link {
+    background: linear-gradient(90deg, #336dcc, #4a90e2);
+    border: none;
+    color: white;
+    box-shadow: 0 3px 8px rgba(74, 144, 226, 0.3);
+}
+
+.pagination .page-link:hover {
+    background-color: rgba(74, 144, 226, 0.12);
+}

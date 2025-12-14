@@ -1,62 +1,124 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>문서 목록</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko"
+      th:replace="~{main :: layout(
+        '문서 목록 | SmartDMS',
+        ~{::content},
+        ~{::extraCss},
+        ~{::extraJs}
+      )}">
+
+<head></head>
 <body>
-<h1>문서 목록</h1>
 
-<div style="margin-bottom: 12px;">
-    <a th:href="@{/document/registerForm}">+ 새 문서 등록</a>
-</div>
+<th:block th:fragment="extraCss">
+    <link rel="stylesheet" th:href="@{/css/document-list.css}">
+</th:block>
 
-<table border="1" cellpadding="8" cellspacing="0" style="width: 100%;">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>제목</th>
-        <th>작성자</th>
-        <th>현재 버전</th>
-        <th>수정일</th>
-        <th>바로가기</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:if="${documents.totalElements == 0}">
-        <td colspan="6" style="text-align:center;">등록된 문서가 없습니다.</td>
-    </tr>
+<th:block th:fragment="extraJs">
+    <!-- 필요 시 문서 목록 전용 JS -->
+</th:block>
 
-    <tr th:each="doc : ${documents.content}">
-        <td th:text="${doc.documentId}">1</td>
-        <td>
-            <a th:href="@{|/document/${doc.documentId}|}"
-               th:text="${doc.title}">문서 제목</a>
-        </td>
-        <td th:text="${doc.ownerName}">홍길동</td>
-        <td th:text="${doc.currentVersionNumber != null ? doc.currentVersionNumber : '-'}">1</td>
-        <td th:text="${#temporals.format(doc.updatedDate, 'yyyy-MM-dd HH:mm')}">2025-12-12 02:00</td>
-        <td>
-            <a th:href="@{|/document/${doc.documentId}/updateForm|}">수정(새 버전)</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<th:block th:fragment="content">
 
-<!-- 페이징 -->
-<div style="margin-top: 16px;">
-    <span th:text="'Page ' + (${documents.number} + 1) + ' / ' + ${documents.totalPages}"></span>
+    <div class="container mt-5">
+        <h2 class="page-title text-center mb-4 fw-bold">문서 목록</h2>
 
-    <div style="margin-top: 8px;">
-        <a th:if="${documents.hasPrevious()}"
-           th:href="@{/document/list(page=${documents.number - 1}, size=${documents.size})}">이전</a>
+        <!-- 상단 액션 -->
+        <div class="d-flex justify-content-end mb-3">
+            <a th:href="@{/document/registerForm}" class="btn btn-primary px-4">
+                + 새 문서 등록
+            </a>
+        </div>
 
-        <span style="margin: 0 10px;"></span>
+        <!-- 목록 테이블 -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-primary">
+                <tr>
+                    <th scope="col" style="width: 10%;">ID</th>
+                    <th scope="col">제목</th>
+                    <th scope="col" style="width: 15%;">작성자</th>
+                    <th scope="col" style="width: 12%;">현재 버전</th>
+                    <th scope="col" style="width: 20%;">수정일</th>
+                    <th scope="col" style="width: 14%;">바로가기</th>
+                </tr>
+                </thead>
 
-        <a th:if="${documents.hasNext()}"
-           th:href="@{/document/list(page=${documents.number + 1}, size=${documents.size})}">다음</a>
+                <tbody>
+                <!-- 문서가 없을 때 -->
+                <tr th:if="${documents.totalElements == 0}">
+                    <td colspan="6" class="text-center py-4 text-muted">
+                        등록된 문서가 없습니다.
+                    </td>
+                </tr>
+
+                <!-- 문서 목록 -->
+                <tr th:each="doc : ${documents.content}">
+                    <td th:text="${doc.documentId}">1</td>
+
+                    <td class="text-start">
+                        <a th:href="@{|/document/${doc.documentId}|}"
+                           class="text-decoration-none text-dark fw-semibold"
+                           th:text="${doc.title}">
+                            문서 제목
+                        </a>
+                    </td>
+
+                    <td th:text="${doc.ownerName}">홍길동</td>
+
+                    <td th:text="${doc.currentVersionNumber != null ? doc.currentVersionNumber : '-'}">1</td>
+
+                    <td th:text="${#temporals.format(doc.updatedDate, 'yyyy-MM-dd HH:mm')}">
+                        2025-12-12 02:00
+                    </td>
+
+                    <td>
+                        <a th:href="@{|/document/${doc.documentId}/updateForm|}"
+                           class="action-link">
+                            수정(새 버전)
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="mt-4">
+
+            <nav th:if="${documents.totalPages > 1}">
+                <ul class="pagination justify-content-center">
+
+                    <li class="page-item" th:classappend="${documents.first} ? 'disabled'">
+                        <a class="page-link fw-bold"
+                           th:href="@{/document/list(page=${documents.number - 1})}" aria-label="이전">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <li class="page-item"
+                        th:each="pageNum : ${#numbers.sequence(0, documents.totalPages - 1)}"
+                        th:classappend="${pageNum == documents.number} ? 'active'">
+                        <a class="page-link"
+                           th:text="${pageNum + 1}"
+                           th:href="@{/document/list(page=${pageNum})}">
+                        </a>
+                    </li>
+
+                    <li class="page-item" th:classappend="${documents.last} ? 'disabled'">
+                        <a class="page-link fw-bold"
+                           th:href="@{/document/list(page=${documents.number + 1})}" aria-label="다음">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+
     </div>
-</div>
+
+</th:block>
 
 </body>
 </html>
