@@ -94,7 +94,7 @@ VALUES
 -- └─ 대댓글2-1 (작성자F) - @작성자E 댓글 내용
 -- └─ 대댓글2-2 (작성자F) - @작성자E 댓글 내용 - 삭제
 
--- ✅ 좋아요 더미 데이터
+-- 좋아요 더미 데이터
 INSERT INTO like_boards (board_id, user_id, liked)
 VALUES
     (1, 2, true),   -- 사용자2 → 게시글1 좋아요
@@ -119,3 +119,125 @@ VALUES
     (8, 2, true),   -- 사용자2 → 게시글8 좋아요
     (9, 3, true),   -- 사용자3 → 게시글9 좋아요
     (10, 5, true);  -- 사용자5 → 게시글10 좋아요
+
+-- 문서 document 더미 데이터
+INSERT INTO document (title, status, owner_id, lock_version, current_version_id, created_date, updated_date)
+VALUES
+    ('회의록_2025-12-01_주간회의', 'ACTIVE',   1, 0, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('기안서_장비구매_요청',        'ACTIVE',   2, 0, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('정책문서_보안가이드_v1',      'ACTIVE',   3, 0, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('프로젝트_스마트DMS_요구사항', 'ACTIVE',   1, 0, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('인수인계서_백엔드_운영',      'ACTIVE', 4, 0, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('폐기대상_구버전_테스트문서',  'DISPOSED', 5, 0, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('회의록_2025-12-08_주간회의',  'ACTIVE',   2, 0, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('장애보고서_DB커넥션_이슈',   'ACTIVE',   3, 0, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('테스트문서111_주간회의', 'ACTIVE', 5, 0, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('테스트문서222_주간회의', 'ACTIVE', 2, 0, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('테스트문서333_주간회의', 'ACTIVE', 3, 0, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('테스트문서444_주간회의', 'ACTIVE', 3, 0, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 문서 버전 DocumentVersion 더미
+INSERT INTO document_version (document_id, version_number, content, updated_by, updated_date, change_reason)
+VALUES
+    -- document_id = 1 (회의록)
+    (1, 1,
+     '## 주간회의 회의록 (초안)\n- 일시: 2025-12-01\n- 참석: 사용자1, 사용자2\n- 안건:\n  1) 이번 주 개발 범위 확정\n  2) 문서 버전 관리 방식 논의\n- 결정사항:\n  - 문서 생성 시 v1 자동 생성\n  - 수정 시 v2, v3 ... 증가\n',
+     1, '2025-12-01 10:20:00', '최초 등록'),
+    (1, 2,
+     '## 주간회의 회의록 (수정)\n- 일시: 2025-12-01\n- 참석: 사용자1, 사용자2, 사용자3\n- 변경:\n  - 참석자 사용자3 추가\n  - 결정사항에 “소프트 삭제/폐기 정책” 항목 추가\n- 결정사항:\n  - 문서 폐기는 DISPOSED 상태로 관리\n',
+     2, '2025-12-02 09:10:00', '참석자 및 결정사항 수정'),
+
+    -- document_id = 2 (기안서)
+    (2, 1,
+     '### 장비 구매 요청 기안서\n- 요청 품목: 서버 SSD 2TB x 2\n- 사유: 로그/문서 저장 용량 부족\n- 예상 금액: 48만원\n- 결재 라인: 팀장 -> 본부장\n',
+     2, '2025-12-03 14:00:00', '최초 등록'),
+    (2, 2,
+     '### 장비 구매 요청 기안서\n- 요청 품목: 서버 SSD 2TB x 4 (변경)\n- 사유: 문서 버전 저장량 증가 예상\n- 예상 금액: 96만원\n- 참고: RAID 구성 고려\n',
+     2, '2025-12-04 11:30:00', '수량 변경 및 사유 보완'),
+    (2, 3,
+     '### 장비 구매 요청 기안서\n- 요청 품목: 서버 SSD 2TB x 4\n- 사유: 문서 저장량 + 백업 정책 반영\n- 추가: 분기별 스냅샷 백업 계획 포함\n',
+     1, '2025-12-05 09:05:00', '백업 계획 추가'),
+
+    -- document_id = 3 (보안가이드)
+    (3, 1,
+     '# 보안 가이드\n1. 비밀번호 정책: 12자 이상\n2. 권한 정책: 최소권한 원칙\n3. 로그 정책: 접근/변경 로그 보관\n',
+     3, '2025-12-01 18:10:00', '최초 등록'),
+    (3, 2,
+     '# 보안 가이드\n1. 비밀번호 정책: 12자 이상 + 주기적 변경\n2. 권한 정책: 최소권한 원칙 + 역할 기반(Role)\n3. 로그 정책: 접근/변경 로그 1년 보관\n4. 데이터 마스킹: 개인정보 필드 적용\n',
+     4, '2025-12-06 16:40:00', '보관 기간 및 마스킹 항목 추가'),
+
+    -- document_id = 4 (요구사항)
+    (4, 1,
+     '# SmartDMS 요구사항\n- 문서(Document) / 버전(DocumentVersion) 분리\n- 현재 버전 currentVersion 참조\n- 낙관적 락(@Version)으로 동시성 처리\n- 문서 상태: ACTIVE / ARCHIVED / DISPOSED\n',
+     1, '2025-12-02 13:20:00', '최초 등록'),
+    (4, 2,
+     '# SmartDMS 요구사항\n- diff 기능: 버전 간 비교\n- 변경 사유 기록(changeReason)\n- 문서 목록 페이지: 제목/작성자/현재버전/수정일 표시\n',
+     1, '2025-12-07 21:10:00', '화면 요구사항 및 diff 추가'),
+
+    -- document_id = 5 (인수인계서 - ARCHIVED)
+    (5, 1,
+     '## 백엔드 운영 인수인계서\n- 배포: GitHub Actions + EC2\n- DB: MySQL\n- 장애 대응: 커넥션 풀, 슬로우 쿼리 점검\n',
+     4, '2025-11-20 09:00:00', '최초 등록'),
+    (5, 2,
+     '## 백엔드 운영 인수인계서\n- 배포: GitHub Actions + EC2\n- 추가: 롤백 절차 문서화\n- 추가: 모니터링 알람 기준 정리\n',
+     4, '2025-12-01 09:00:00', '롤백/모니터링 항목 추가'),
+
+    -- document_id = 6 (폐기 문서)
+    (6, 1,
+     '이 문서는 테스트용이며 폐기 처리 예정입니다.\n- 내용: 임시 텍스트\n- 목적: DISPOSED 상태 문서 조회 테스트\n',
+     5, '2025-10-01 12:00:00', '최초 등록'),
+    (6, 2,
+     '이 문서는 폐기 완료되었습니다.\n- 접근 제한 확인\n- 목록/상세 조회 정책 점검\n',
+     5, '2025-10-03 12:00:00', '폐기 처리 반영'),
+
+    -- document_id = 7 (회의록)
+    (7, 1,
+     '## 주간회의 회의록 (2025-12-08)\n- 안건: 성능 최적화, 인덱스 점검\n- 결정: document_id + version_number 유니크 고려\n',
+     2, '2025-12-08 10:10:00', '최초 등록'),
+
+    -- document_id = 8 (장애보고서)
+    (8, 1,
+     '### 장애 보고서\n- 현상: DB 커넥션 타임아웃 증가\n- 원인 추정: 커넥션 풀 고갈\n- 조치: 타임아웃/풀 설정 조정, 슬로우쿼리 확인\n',
+     3, '2025-12-09 08:30:00', '최초 등록'),
+    (8, 2,
+     '### 장애 보고서\n- 원인 확정: N+1로 인한 쿼리 폭증\n- 조치: fetch join 적용, 인덱스 추가\n- 재발 방지: 모니터링 알람 기준 강화\n',
+     1, '2025-12-10 12:15:00', '원인 확정 및 조치사항 업데이트'),
+
+    (9, 1,
+    '## 주간회의 회의록 (초안)\n- 일시: 2025-12-01\n- 참석: 사용자1, 사용자2\n- 안건:\n  1) 이번 주 개발 범위 확정\n  2) 문서 버전 관리 방식 논의\n- 결정사항:\n  - 문서 생성 시 v1 자동 생성\n  - 수정 시 v2, v3 ... 증가\n',
+    1, '2025-12-01 10:20:00', '최초 등록'),
+    (10, 1,
+     '## 주간회의 회의록 (초안)\n- 일시: 2025-12-01\n- 참석: 사용자1, 사용자2\n- 안건:\n  1) 이번 주 개발 범위 확정\n  2) 문서 버전 관리 방식 논의\n- 결정사항:\n  - 문서 생성 시 v1 자동 생성\n  - 수정 시 v2, v3 ... 증가\n',
+     1, '2025-12-01 10:20:00', '최초 등록'),
+    (11, 1,
+     '주간회의 회의록 (초안)
+     - 일시: 2025-12-01
+     - 참석: 사용자1, 사용자2
+     - 안건:
+     1) 이번 주 개발 범위 확정
+     2) 문서 버전 관리 방식 논의
+     - 결정사항:
+       - 문서 생성 시 v1 자동 생성
+       - 수정 시 v2, v3 ... 증가',
+     1, '2025-12-01 10:20:00', '최초 등록'),
+    (12, 1,
+     '주간회의 회의록 (초안)
+     - 일시: 2025-12-01
+     - 참석: 사용자1, 사용자2
+     - 안건:
+     1) 이번 주 개발 범위 확정
+     2) 문서 버전 관리 방식 논의
+     결정사항:- 문서 생성 시 v1 자동 생성
+                - 수정 시 v2, v3 ... 증가',
+     1, '2025-12-01 10:20:00', '최초 등록');
+
+-- 각 document의 최신 버전을 current_version_id로 세팅
+UPDATE document d
+SET d.current_version_id = (
+    SELECT dv.version_id
+    FROM document_version dv
+    WHERE dv.document_id = d.document_id
+    ORDER BY dv.version_number DESC
+    LIMIT 1
+    );
+
