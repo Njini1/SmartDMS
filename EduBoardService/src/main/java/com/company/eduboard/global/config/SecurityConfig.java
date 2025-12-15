@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())) // H2 콘솔 허용
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/ckeditor-custom/**", "/css/**", "/js/**", "/images/**").permitAll() // ckeditor5.js 로딩이 실패하는 문제 해결
-                        .requestMatchers("/", "/users/register", "/board/list", "/board/{id:[0-9]+}").permitAll()
+                        .requestMatchers("/", "/users/register", "/board/list", "/document/list","/board/{id:[0-9]+}", "/document/{id:[0-9]+}").permitAll()
                         .requestMatchers("/board/**", "/like/**", "/comment/**", "/document/**").authenticated()
                 )
                 .formLogin(form -> form
