@@ -80,9 +80,6 @@ const editorConfig = {
 	table: { contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'] }
 };
 
-// ✅ Thymeleaf에서 주입한 초기 HTML이 있으면 그걸 사용.
-// - form.html: window.__initialHtml = "" (없거나 빈값)
-// - updateForm.html: window.__initialHtml = 기존 contentHtml
 const initialHtml = window.__initialHtml || '';
 
 if (initialHtml) {
@@ -95,10 +92,10 @@ if (initialHtml) {
 ClassicEditor
 	.create(document.querySelector('#editor'), editorConfig)
 	.then(editor => {
-		// ✅ 전역으로 노출 (폼 submit 때 사용)
+		// 전역으로 노출 (폼 submit 때 사용)
 		window.editorInstance = editor;
 
-		// ✅ 폼 submit 시 hidden input에 HTML 저장
+		// 폼 submit 시 hidden input에 HTML 저장
 		const form = document.querySelector('form#docForm');
 		if (form) {
 			form.addEventListener('submit', () => {

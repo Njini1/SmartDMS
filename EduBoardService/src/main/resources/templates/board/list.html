@@ -12,17 +12,15 @@
 <head></head>
 <body>
 
-<!-- ✅ 이 페이지에서만 쓸 CSS 추가 영역 -->
 <th:block th:fragment="extraCss">
     <link rel="stylesheet" th:href="@{/css/board-list.css}">
 </th:block>
 
-<!-- ✅ 이 페이지에서만 쓸 JS가 있다면 여기에  -->
+
 <th:block th:fragment="extraJs">
-    <!-- 필요 시 페이지 전용 JS 추가 -->
+
 </th:block>
 
-<!-- ✅ 실제 페이지 콘텐츠 -->
 <th:block th:fragment="content">
 
     <h2 class="board-title text-center mb-4 fw-bold">문서 협업 게시판</h2>
