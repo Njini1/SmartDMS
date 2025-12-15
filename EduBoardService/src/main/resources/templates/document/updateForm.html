@@ -10,13 +10,43 @@
 <head></head>
 <body>
 
-<!-- 이 페이지 전용 CSS -->
 <th:block th:fragment="extraCss">
     <link rel="stylesheet" th:href="@{/css/document-version-form.css}">
+
+    <!-- CKEditor5 CSS (self-hosted zip 구조 사용) -->
+    <link rel="stylesheet" th:href="@{/ckeditor-custom/ckeditor5/ckeditor5.css}">
+    <link rel="stylesheet" th:href="@{/ckeditor-custom/style.css}">
+
+    <style>
+        /* 편집 영역 최소 높이 */
+        .ck-editor__editable {
+            min-height: 360px;
+        }
+    </style>
 </th:block>
 
 <th:block th:fragment="extraJs">
-    <!-- 버전 수정 페이지 전용 JS 필요하면 여기 -->
+
+    <!-- KEditor 모듈 importmap (절대경로 권장) -->
+    <script type="importmap">
+        {
+          "imports": {
+            "ckeditor5": "/ckeditor-custom/ckeditor5/ckeditor5.js",
+            "ckeditor5/": "/ckeditor-custom/ckeditor5/"
+          }
+        }
+    </script>
+
+    <!-- 초기 데이터(현재 문서 내용)를 에디터에 주입하기 위한 전역 변수 -->
+    <script th:inline="javascript">
+        window.__initialHtml = /*[[${document.content}]]*/ "";
+    </script>
+
+    <!-- CKEditor 빌더가 생성한 main.js 로드 (type="module" 필수) -->
+    <script type="module" src="/ckeditor-custom/main.js"></script>
+
+    <script th:src="@{/js/document-version.js}"></script>
+
 </th:block>
 
 <th:block th:fragment="content">
@@ -50,14 +80,6 @@
                     <span class="meta-value" th:text="${document.documentId}">1</span>
                 </div>
 
-                <!-- 작성자 보여주기
-                <div class="meta-item">
-                    <span class="meta-label">작성자</span>
-                    <span class="meta-value" th:text="${document.author}">홍길동</span>
-                </div>
-                -->
-
-                <!-- 잠금 버전도 참고용으로 보여줄 수 있음 -->
                 <div class="meta-item">
                     <span class="meta-label">버전 락(잠금 버전)</span>
                     <span class="meta-value" th:text="${document.lockVersion}">0</span>
@@ -73,10 +95,13 @@
 
             <div class="current-content-wrapper">
                 <span class="meta-label">현재 내용</span>
+
+                <!-- HTML 문서라면 pre 말고 div로 출력하는 게 맞음 -->
+                <!-- 주의: th:utext는 XSS 위험이 있으니 "내부 직원 입력 + 서버 sanitize" 전제에서만 사용 -->
                 <div class="current-content">
-                    <pre th:text="${document.content}">
-기존 문서 내용이 이 영역에 표시됩니다.
-                    </pre>
+                    <div th:utext="${document.content}">
+                        기존 문서 내용이 이 영역에 표시됩니다.
+                    </div>
                 </div>
             </div>
         </section>
@@ -97,7 +122,7 @@
                 <!-- CSRF -->
                 <input type="hidden"
                        th:name="${_csrf.parameterName}"
-                       th:value="${_csrf.token}" />
+                       th:value="${_csrf.token}"/>
 
                 <!-- 동시성 체크용 hidden 값 -->
                 <input type="hidden" name="documentId"
@@ -117,16 +142,18 @@
                            required/>
                 </div>
 
-                <!-- 새 내용 -->
+                <!-- 새 내용: CKEditor 대상 -->
                 <div class="mb-3">
-                    <label for="newContent" class="form-label">새 내용</label>
-                    <textarea id="newContent"
-                              name="newContent"
-                              class="form-control content-box"
-                              rows="12"
-                              th:text="${document.content}"
-                              placeholder="수정된 내용을 입력하세요"
-                              required></textarea>
+                    <label class="form-label">새 내용</label>
+
+                    <!-- 에디터 mount -->
+                    <div id="editor" class="content-box"></div>
+
+                    <!-- 서버로 실제 전송되는 hidden input (name=newContent 유지) -->
+                    <input type="hidden" id="newContentHidden" name="newContent" required>
+                    <div class="form-text">
+                        문서 내용은 HTML 형식으로 저장됩니다.
+                    </div>
                 </div>
 
                 <!-- 변경 사유 -->

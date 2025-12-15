@@ -44,10 +44,10 @@
 
         <!-- 문서 본문 -->
         <div class="document-content-wrapper mt-4">
-            <p class="document-content"
-               th:text="${document.content}">
+            <div class="document-content"
+                 th:utext="${document.content}">
                 문서 내용이 들어가는 영역입니다.
-            </p>
+            </div>
         </div>
 
         <!-- 하단 버튼 영역 -->
