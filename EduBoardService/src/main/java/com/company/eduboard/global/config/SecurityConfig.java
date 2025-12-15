@@ -23,7 +23,7 @@ public class SecurityConfig {
 //                .csrf(csrf -> csrf.disable()) // 개발 중엔 임시로 비활성화
                 .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())) // H2 콘솔 허용
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/ckeditor-custom/**", "/css/**", "/js/**", "/images/**").permitAll() // ckeditor5.js 로딩이 실패하는 문제 해결
                         .requestMatchers("/", "/users/register", "/board/list", "/board/{id:[0-9]+}").permitAll()
                         .requestMatchers("/board/**", "/like/**", "/comment/**", "/document/**").authenticated()
                 )
