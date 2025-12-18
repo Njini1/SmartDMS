@@ -1,14 +1,13 @@
 package com.company.eduboard.domain.user.controller;
 
 import com.company.eduboard.domain.user.dto.request.UserRequest;
-import com.company.eduboard.domain.user.service.CustomUserDetails;
 import com.company.eduboard.domain.user.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -43,14 +42,31 @@ public class UserController {
 
     // 회원가입 페이지 요청
     @GetMapping("/register")
-    public String registerPage() {
+    public String registerPage(Model model) {
+        model.addAttribute("userRequest", new UserRequest());
         return "user/register";
     }
 
     // 회원가입 처리 요청
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute UserRequest userRequest, Model model) {
-        System.out.println("email: " + userRequest.getEmail());
+    public String registerUser(@Valid @ModelAttribute UserRequest userRequest,
+                               BindingResult bindingResult,
+                               Model model) {
+        // 기본 Bean Validation 실패
+        if (bindingResult.hasErrors()) {
+            return "user/register";
+        }
+
+        // 비밀번호 확인 일치 검증
+        if (!userRequest.getPassword().equals(userRequest.getPasswordConfirm())) {
+            bindingResult.rejectValue(
+                    "passwordConfirm",
+                    "PASSWORD_MISMATCH",
+                    "비밀번호가 일치하지 않습니다."
+            );
+            return "user/register";
+        }
+
         userService.registerUser(userRequest);
         return "redirect:/users/login";
     }
