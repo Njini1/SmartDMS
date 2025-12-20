@@ -20,7 +20,6 @@ public class Document extends BaseTimeEntity {
     @Column(nullable = false, length = 200)
     private String title;
 
-    // 문서 상태 (ACTIVE, ARCHIVED, DISPOSED 등)
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private DocumentStatus status = DocumentStatus.ACTIVE;

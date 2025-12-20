@@ -10,6 +10,7 @@ import com.company.eduboard.domain.document.repository.DocumentRepository;
 import com.company.eduboard.domain.document.repository.DocumentVersionRepository;
 import com.company.eduboard.domain.user.entity.User;
 import com.company.eduboard.global.error.exception.DocumentNotFoundException;
+import com.company.eduboard.global.util.HtmlContentProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,11 +35,15 @@ public class DocumentService {
 
         documentRepository.save(document);
 
+        var contentProcessor = HtmlContentProcessor.process(documentRegisterRequest.getContent());
+
         // 초기 버전 생성
         DocumentVersion initialVersion = DocumentVersion.of(
                 document,
                 1L,
-                documentRegisterRequest.getContent(),
+                contentProcessor.content(),
+                contentProcessor.contentText(),
+                contentProcessor.contentSignature(),
                 user,
                 null
         );

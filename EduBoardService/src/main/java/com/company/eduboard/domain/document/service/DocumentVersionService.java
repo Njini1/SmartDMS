@@ -8,6 +8,7 @@ import com.company.eduboard.domain.document.repository.DocumentVersionRepository
 import com.company.eduboard.domain.user.entity.User;
 import com.company.eduboard.global.error.exception.DocumentNotFoundException;
 import com.company.eduboard.global.error.exception.DocumentVersionConflictException;
+import com.company.eduboard.global.util.HtmlContentProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,17 +30,21 @@ public class DocumentVersionService {
             throw new DocumentVersionConflictException(document.getDocumentId());
         }
 
-        // TODO: 문서 내용 변경이 없는 경우 예외 처리할지 여부 검토
+        // TODO: 문서 내용 변경이 없는 경우 예외 처리
         // TODO: 새 버전 문서 생성 권한 검사 추가 필요
 
         // 다음 버전 번호 생성
         Long nextVersionNumber = document.updateNextVersionNumber();
 
+        var contentProcessor = HtmlContentProcessor.process(documentUpdateRequest.getNewContent());
+
         // 새 버전 생성
         DocumentVersion newVersion = DocumentVersion.of(
                 document,
                 nextVersionNumber,
-                documentUpdateRequest.getNewContent(),
+                contentProcessor.content(),
+                contentProcessor.contentText(),
+                contentProcessor.contentSignature(),
                 editor,
                 documentUpdateRequest.getChangeReason()
         );
