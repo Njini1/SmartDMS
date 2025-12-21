@@ -34,7 +34,7 @@ public class DocumentVersion {
     private String contentSignature;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updatedBy", nullable = false)
+    @JoinColumn(name = "updated_by", nullable = false)
     private User updatedBy;
 
     @CreatedDate
